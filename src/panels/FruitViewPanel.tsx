@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
-import { MockFruitMachine, Fruit } from '../../engine/MockFruitMachine';
+import React, { useState } from "react";
+import { MockFruitMachine, Fruit } from "../../engine/MockFruitMachine";
 // Add Ant Design imports
-import { Card, Form, Select, InputNumber, Button, Typography, List, message as antdMessage } from 'antd';
+import {
+  Card,
+  Form,
+  Select,
+  InputNumber,
+  Button,
+  Typography,
+  List,
+  message as antdMessage,
+} from "antd";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
 
-const fruitList: Fruit[] = ['apple', 'banana', 'orange'];
+const fruitList: Fruit[] = ["apple", "banana", "orange"];
 const machine = new MockFruitMachine();
 
 export const FruitViewPanel: React.FC = () => {
   const [inventory, setInventory] = useState(machine.getInventory());
-  const [selectedFruit, setSelectedFruit] = useState<Fruit>('apple');
+  const [selectedFruit, setSelectedFruit] = useState<Fruit>("apple");
   const [amount, setAmount] = useState(1);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const handleBuy = () => {
     if (machine.buy(selectedFruit, amount)) {
@@ -37,36 +46,42 @@ export const FruitViewPanel: React.FC = () => {
     <div
       className="panels"
       style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        minHeight: '100%',
-        padding: '32px 0',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        minHeight: "100%",
+        padding: "32px 0",
       }}
     >
       <Card
         style={{
           borderRadius: 12,
-          boxShadow: '0 2px 12px #0004',
+          boxShadow: "0 2px 12px #0004",
           minWidth: 350,
           maxWidth: 400,
         }}
-        bodyStyle={{ padding: 32 }}
+        styles={{
+          body: { padding: 32 },
+        }}
       >
-        <Title level={3} style={{ marginTop: 0, marginBottom: 24 }}>Fruit View</Title>
+        <Title level={3} style={{ marginTop: 0, marginBottom: 24 }}>
+          Fruit View
+        </Title>
         <Form
           layout="inline"
-          style={{ marginBottom: 16, flexWrap: 'wrap', gap: 12 }}
-          onSubmitCapture={e => e.preventDefault()}
+          style={{ marginBottom: 16, flexWrap: "wrap", gap: 12 }}
+          onSubmitCapture={(e) => e.preventDefault()}
         >
           <Form.Item label="Fruit">
             <Select
               value={selectedFruit}
-              onChange={value => setSelectedFruit(value)}
+              onChange={(value) => setSelectedFruit(value)}
               style={{ width: 120 }}
             >
-              {fruitList.map(fruit => (
-                <Option key={fruit} value={fruit}>{fruit}</Option>
+              {fruitList.map((fruit) => (
+                <Option key={fruit} value={fruit}>
+                  {fruit}
+                </Option>
               ))}
             </Select>
           </Form.Item>
@@ -74,7 +89,7 @@ export const FruitViewPanel: React.FC = () => {
             <InputNumber
               min={1}
               value={amount}
-              onChange={value => setAmount(Number(value))}
+              onChange={(value) => setAmount(Number(value))}
               style={{ width: 80 }}
             />
           </Form.Item>
@@ -92,25 +107,30 @@ export const FruitViewPanel: React.FC = () => {
             <Text
               strong
               style={{
-                color: message.startsWith('Bought')
-                  ? '#52c41a'
-                  : message.startsWith('Not enough')
-                  ? '#f5222d'
-                  : undefined
+                color: message.startsWith("Bought")
+                  ? "#52c41a"
+                  : message.startsWith("Not enough")
+                  ? "#f5222d"
+                  : undefined,
               }}
             >
               {message}
             </Text>
           )}
         </div>
-        <Title level={4} style={{ marginBottom: 8 }}>Inventory</Title>
+        <Title level={4} style={{ marginBottom: 8 }}>
+          Inventory
+        </Title>
         <List
           size="small"
           dataSource={fruitList}
-          renderItem={fruit => (
-            <List.Item style={{ padding: '4px 0' }}>
-              <Text style={{ color: '#bfcfff', fontSize: 16 }}>
-                {fruit}: <Text strong style={{ color: '#222' }}>{inventory[fruit]}</Text>
+          renderItem={(fruit) => (
+            <List.Item style={{ padding: "4px 0" }}>
+              <Text style={{ color: "#bfcfff", fontSize: 16 }}>
+                {fruit}:{" "}
+                <Text strong style={{ color: "#222" }}>
+                  {inventory[fruit]}
+                </Text>
               </Text>
             </List.Item>
           )}
