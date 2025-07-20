@@ -10,7 +10,7 @@ describe("GridDropOverlay", () => {
     );
     const gridCells = screen.getAllByTestId(/cell-\d+-\d+/);
 
-    expect(gridCells.length).toBe(6); // 2 rows x 3 cols
+    expect(gridCells.length).toBe(6);
   });
 
   it("sets opacity to 0 when not visible", () => {

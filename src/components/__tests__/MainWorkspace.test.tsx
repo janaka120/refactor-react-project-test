@@ -38,7 +38,6 @@ describe("MainWorkspace", () => {
 
     const workspace = screen.getByTestId("workspace");
 
-    // Mock getBoundingClientRect on the actual element
     vi.spyOn(workspace, "getBoundingClientRect").mockReturnValue({
       width: 200,
       height: 200,
@@ -93,9 +92,6 @@ describe("MainWorkspace", () => {
   it("shows GridDropOverlay when dragging or panel dragging", () => {
     const { getByText, rerender } = setup();
 
-    // Initially not dragging -> GridDropOverlay visible prop false
-    // Can't directly test internal state, but we trust visual behavior
-
     // Rerender with dragging true
     rerender(
       <MainWorkspace
@@ -107,13 +103,6 @@ describe("MainWorkspace", () => {
         <div>Child content</div>
       </MainWorkspace>
     );
-
-    // The GridDropOverlay is rendered inside the main div, can't select by role, but test no crash
-
-    // Simulate drag events to toggle dragging state using window.mainWorkspaceHandleDragStart
-    // Call the exposed method and check for side effects if needed
-
-    // This is tricky in unit test; for full coverage, test integration or snapshot test
   });
 
   it("cleans up event listeners on unmount", () => {
