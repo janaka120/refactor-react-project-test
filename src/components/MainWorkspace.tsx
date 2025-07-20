@@ -5,7 +5,10 @@ interface MainWorkspaceProps {
   children: React.ReactNode;
   onDrop: (e: React.DragEvent<HTMLDivElement>) => void;
   onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
-  onGridDropInfo?: (info: { cell: { row: number; col: number } | null; size: { width: number; height: number } }) => void;
+  onGridDropInfo?: (info: {
+    cell: { row: number; col: number } | null;
+    size: { width: number; height: number };
+  }) => void;
   gridRows?: number;
   gridCols?: number;
 }
@@ -19,7 +22,10 @@ export const MainWorkspace: React.FC<MainWorkspaceProps> = ({
   gridCols = 2,
 }) => {
   const [dragging, setDragging] = useState(false);
-  const [activeCell, setActiveCell] = useState<{ row: number; col: number } | null>(null);
+  const [activeCell, setActiveCell] = useState<{
+    row: number;
+    col: number;
+  } | null>(null);
   const [isPanelDragging, setIsPanelDragging] = useState(false);
   const workspaceRef = useRef<HTMLDivElement>(null);
 
@@ -63,7 +69,6 @@ export const MainWorkspace: React.FC<MainWorkspaceProps> = ({
     };
     // eslint-disable-next-line
   }, [containerSize, onGridDropInfo]);
-
   // Listen for panel drag events (custom event)
   useEffect(() => {
     const handlePanelDragStart = () => setIsPanelDragging(true);
@@ -83,7 +88,10 @@ export const MainWorkspace: React.FC<MainWorkspaceProps> = ({
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener("panel-drag-start", handlePanelDragStart as any);
+      window.removeEventListener(
+        "panel-drag-start",
+        handlePanelDragStart as any
+      );
       window.removeEventListener("panel-drag-end", handlePanelDragEnd as any);
       window.removeEventListener("keydown", handleKeyDown);
     };
@@ -92,6 +100,7 @@ export const MainWorkspace: React.FC<MainWorkspaceProps> = ({
   const handleDragOver = (e: React.DragEvent) => {
     if (!workspaceRef.current) return;
     const rect = workspaceRef.current.getBoundingClientRect();
+    console.log("workspaceRef.current.getBoundingClientRect() >>>", rect);
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     const cellWidth = rect.width / gridCols;
@@ -100,7 +109,11 @@ export const MainWorkspace: React.FC<MainWorkspaceProps> = ({
     const row = Math.max(0, Math.min(gridRows - 1, Math.floor(y / cellHeight)));
     const cell = { row, col };
     setActiveCell(cell);
-    if (onGridDropInfo) onGridDropInfo({ cell, size: { width: rect.width, height: rect.height } });
+    if (onGridDropInfo)
+      onGridDropInfo({
+        cell,
+        size: { width: rect.width, height: rect.height },
+      });
   };
 
   // Expose handleDragStart for parent usage if needed
@@ -109,15 +122,16 @@ export const MainWorkspace: React.FC<MainWorkspaceProps> = ({
   return (
     <div
       ref={workspaceRef}
+      data-testid="workspace"
       style={{ position: "relative", width: "100%", height: "100%" }}
-      onDrop={e => {
+      onDrop={(e) => {
         setDragging(false);
         setIsPanelDragging(false);
         setActiveCell(null);
         if (onGridDropInfo) onGridDropInfo({ cell: null, size: containerSize });
         onDrop(e);
       }}
-      onDragOver={e => {
+      onDragOver={(e) => {
         handleDragOver(e);
         onDragOver(e);
       }}
