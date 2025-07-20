@@ -93,7 +93,7 @@ const getInitialTheme = () => {
 /**
  * Main application component.
  */
-const App: FC = () => {
+export const App: FC = () => {
   const [openPanels, setOpenPanels] = useState<OpenPanel[]>([]);
   const [dragNavPanelKey, setDragNavPanelKey] = useState<string | null>(null);
   const [navOpen, setNavOpen] = useState<boolean>(false);
