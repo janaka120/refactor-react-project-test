@@ -1,0 +1,28 @@
+/* ResizableDraggablePanel.css */
+.panel.z-top {
+  z-index: 999;
+}
+.panel-header {
+  cursor: move;
+}
+/* .resize-handle {
+  background: rgba(0, 0, 0, 0.1);
+} */
+.panel-container {
+  position: absolute;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #1c1c2c;
+  overflow: hidden;
+}
+
+.resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  z-index: 10;
+  background-image: url("data:image/svg+xml;base64,..."); /* optional SVG corner icon */
+}

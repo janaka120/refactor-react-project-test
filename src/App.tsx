@@ -253,6 +253,7 @@ export const App: FC = () => {
       return next;
     });
   };
+  const [activePanelId, setActivePanelId] = useState<string | null>(null);
 
   return (
     <div
@@ -472,12 +473,21 @@ export const App: FC = () => {
             openPanels.map((panel) => (
               <ResizableDraggablePanel
                 key={panel.id}
-                {...panel}
+                id={panel.id}
+                title={panel.title}
+                x={panel.x}
+                y={panel.y}
+                width={panel.width}
+                height={panel.height}
                 onClose={() => handleClose(panel.id)}
                 onMove={(dx, dy) => handlePanelMove(panel.id, dx, dy)}
                 onResize={(dw, dh) => handlePanelResize(panel.id, dw, dh)}
-                // Add a prop to indicate dragging for overlay z-index if needed
-              />
+                isDragging={activePanelId === panel.id}
+                onDragStart={() => setActivePanelId(panel.id)}
+                onDragEnd={() => setActivePanelId(null)}
+              >
+                {panel.content}
+              </ResizableDraggablePanel>
             ))
           )}
         </main>

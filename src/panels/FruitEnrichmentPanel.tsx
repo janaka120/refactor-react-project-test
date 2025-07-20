@@ -1,21 +1,21 @@
-import React, { useState, useMemo } from 'react';
-import ResizableDraggablePanel from '../components/ResizableDraggablePanel';
-import { AgGridReact } from 'ag-grid-react';
-import { ColDef } from 'ag-grid-community';
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
+import React, { useState, useMemo } from "react";
+import ResizableDraggablePanel from "../components/ResizableDraggablePanel";
+import { AgGridReact } from "ag-grid-react";
+import { ColDef } from "ag-grid-community";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 
 const gridStyle: React.CSSProperties = {
-  background: '#20263a',
-  border: '1.5px solid #2e3650',
+  background: "#20263a",
+  border: "1.5px solid #2e3650",
   borderRadius: 10,
-  padding: '18px 24px',
-  fontFamily: 'monospace',
-  color: '#e0e6f5',
+  padding: "18px 24px",
+  fontFamily: "monospace",
+  color: "#e0e6f5",
   fontSize: 15,
   minWidth: 260,
   minHeight: 120,
-  boxShadow: '0 2px 8px #0004',
+  boxShadow: "0 2px 8px #0004",
   margin: 0,
 };
 
@@ -32,7 +32,10 @@ interface FruitEnrichmentPanelProps {
  * @param fruit The fruit object to display details for.
  * @param onClose Callback to close the panel.
  */
-const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({ fruit, onClose }) => {
+const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({
+  fruit,
+  onClose,
+}) => {
   const [panelState, setPanelState] = useState({
     x: 200,
     y: 120,
@@ -43,7 +46,7 @@ const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({ fruit, onCl
   /**
    * Column definitions for the AG Grid.
    */
-  const columnDefs: ColDef<{ property: string; value: any; }>[] = [
+  const columnDefs: ColDef<{ property: string; value: any }>[] = [
     {
       headerName: "Property",
       field: "property",
@@ -68,13 +71,16 @@ const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({ fruit, onCl
   /**
    * Memoized row data for the grid.
    */
-  const rowData = useMemo(() => [
-    { property: 'ID', value: fruit.id },
-    { property: 'Country', value: fruit.country },
-    { property: 'Type', value: fruit.type },
-    { property: 'Status', value: fruit.status },
-    { property: 'Details', value: fruit.details },
-  ], [fruit]);
+  const rowData = useMemo(
+    () => [
+      { property: "ID", value: fruit.id },
+      { property: "Country", value: fruit.country },
+      { property: "Type", value: fruit.type },
+      { property: "Status", value: fruit.status },
+      { property: "Details", value: fruit.details },
+    ],
+    [fruit]
+  );
 
   /**
    * Handles moving the panel.
@@ -82,7 +88,7 @@ const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({ fruit, onCl
    * @param dy Delta Y
    */
   const handleMove = (dx: number, dy: number) => {
-    setPanelState(prev => ({
+    setPanelState((prev) => ({
       ...prev,
       x: prev.x + dx,
       y: prev.y + dy,
@@ -95,7 +101,7 @@ const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({ fruit, onCl
    * @param dh Delta height
    */
   const handleResize = (dw: number, dh: number) => {
-    setPanelState(prev => ({
+    setPanelState((prev) => ({
       ...prev,
       width: Math.max(320, prev.width + dw),
       height: Math.max(160, prev.height + dh),
@@ -106,32 +112,6 @@ const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({ fruit, onCl
     <ResizableDraggablePanel
       id={`fruit-enrichment-${fruit.id}`}
       title={`${fruit.name} Enrichment`}
-      content={
-        <div style={{ height: '100%', width: '100%' }}>
-          <div
-            className="ag-theme-alpine"
-            style={{
-              height: panelState.height - 40,
-              width: '100%',
-              background: '#20263a',
-              borderRadius: 10,
-              fontSize: 15,
-              color: '#e0e6f5',
-            }}
-          >
-            <AgGridReact
-              columnDefs={columnDefs}
-              rowData={rowData}
-              domLayout="autoHeight"
-              headerHeight={32}
-              rowHeight={32}
-              suppressCellFocus={true}
-              suppressMovableColumns={true}
-              suppressMenuHide={true}
-            />
-          </div>
-        </div>
-      }
       x={panelState.x}
       y={panelState.y}
       width={panelState.width}
@@ -141,7 +121,23 @@ const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({ fruit, onCl
       onClose={onClose}
       onMove={handleMove}
       onResize={handleResize}
-    />
+    >
+      <div
+        className="ag-theme-alpine"
+        style={{ height: panelState.height - 40 }}
+      >
+        <AgGridReact
+          columnDefs={columnDefs}
+          rowData={rowData}
+          domLayout="autoHeight"
+          headerHeight={32}
+          rowHeight={32}
+          suppressCellFocus
+          suppressMovableColumns
+          suppressMenuHide
+        />
+      </div>
+    </ResizableDraggablePanel>
   );
 };
 
