@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./ResizableDraggablePanel.css"; // Optional styling import
+import { getNextZIndex } from "../utils/zIndexManager";
 
 interface Props {
   id: string;
@@ -17,6 +18,7 @@ interface Props {
   onDragStart?: () => void;
   onDragEnd?: () => void;
   isDragging?: boolean; // External control for z-index layering
+  zIndex?: number;
 }
 
 const ResizableDraggablePanel: React.FC<Props> = ({
@@ -35,15 +37,25 @@ const ResizableDraggablePanel: React.FC<Props> = ({
   onDragStart,
   onDragEnd,
   isDragging = false,
+  zIndex,
 }) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState(false);
   const [resizing, setResizing] = useState(false);
   const [start, setStart] = useState({ x: 0, y: 0 });
+  const [currentZIndex, setCurrentZIndex] = useState(zIndex ?? getNextZIndex());
 
+  const bringToFront = () => {
+    setCurrentZIndex(getNextZIndex());
+  };
+
+  const handleDragStart = () => {
+    bringToFront();
+  };
   // Dragging
   const handleMouseDown = (e: React.MouseEvent) => {
     e.stopPropagation();
+    handleDragStart();
     setDragging(true);
     setStart({ x: e.clientX, y: e.clientY });
     onDragStart?.();
@@ -103,10 +115,11 @@ const ResizableDraggablePanel: React.FC<Props> = ({
         border: "1px solid #3e4a6b",
         borderRadius: 8,
         userSelect: "none",
-        zIndex: isDragging ? 1000 : undefined,
+        zIndex: currentZIndex,
         display: "flex",
         flexDirection: "column",
       }}
+      onMouseDown={bringToFront}
     >
       <div
         className="panel-header"
