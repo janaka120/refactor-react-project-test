@@ -18,7 +18,7 @@ const popoverContainerStyle: React.CSSProperties = {
 const logoutButtonStyle: React.CSSProperties = {
   background: "#e74c3c",
   borderColor: "#e74c3c",
-  color: "#fff",
+  color: "var(--text-color)",
   fontWeight: 500,
   borderRadius: 8,
 };

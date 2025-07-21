@@ -53,7 +53,7 @@ const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({
       flex: 1,
       cellStyle: {
         fontWeight: 700,
-        color: "#333",
+        color: "var(--text-color)",
         fontFamily: "inherit",
       },
     },
@@ -62,7 +62,7 @@ const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({
       field: "value",
       flex: 2,
       cellStyle: {
-        color: "#333",
+        color: "var(--text-color)",
         fontFamily: "inherit",
       },
     },

@@ -25,14 +25,14 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#232b3e",
+        background: "var(--background-color)",
       }}
     >
       <Card
         style={{
           minWidth: 340,
           boxShadow: "0 2px 16px #0003",
-          background: "#232b3e",
+          background: "var(--background-color)",
           border: "1px solid #3e4a6b",
         }}
         styles={{
@@ -44,7 +44,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
           style={{
             textAlign: "center",
             marginBottom: 24,
-            color: "#fff",
+            color: "var(--text-color)",
             fontFamily: "monospace",
             fontWeight: 700,
             letterSpacing: 2,
@@ -62,7 +62,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
         >
           <Form.Item
             label={
-              <span style={{ color: "#e0e0e0", fontWeight: 500 }}>
+              <span style={{ color: "var(--text-color)", fontWeight: 500 }}>
                 Username
               </span>
             }
@@ -74,8 +74,8 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
               autoComplete="username"
               autoFocus
               style={{
-                background: "#232b3e",
-                color: "#fff",
+                background: "var(--background-color)",
+                color: "var(--text-color)",
                 border: "1px solid #3e4a6b",
               }}
               placeholder="Enter your username"
@@ -84,7 +84,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
 
           <Form.Item
             label={
-              <span style={{ color: "#e0e0e0", fontWeight: 500 }}>
+              <span style={{ color: "var(--text-color)", fontWeight: 500 }}>
                 Password
               </span>
             }
@@ -93,8 +93,8 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
           >
             <Input.Password
               style={{
-                background: "#232b3e",
-                color: "#fff",
+                background: "var(--background-color)",
+                color: "var(--text-color)",
                 border: "1px solid #3e4a6b",
               }}
               placeholder="Enter your password"
@@ -119,7 +119,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
                 letterSpacing: 1,
                 background: "linear-gradient(90deg, #2b3556 0%, #3e4a6b 100%)",
                 border: "none",
-                color: "#fff",
+                color: "var(--text-color)",
                 boxShadow: "0 2px 8px #0002",
               }}
             >

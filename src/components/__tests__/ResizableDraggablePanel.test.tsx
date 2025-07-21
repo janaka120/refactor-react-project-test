@@ -21,19 +21,19 @@ describe("ResizableDraggablePanel", () => {
   });
 
   it("renders the panel with correct title and content", () => {
-    render(<ResizableDraggablePanel {...defaultProps} />);
+    render(<ResizableDraggablePanel children={""} {...defaultProps} />);
     expect(screen.getByText("Test Panel")).toBeInTheDocument();
     expect(screen.getByText("Panel Content")).toBeInTheDocument();
   });
 
   it("calls onClose when close button is clicked", () => {
-    render(<ResizableDraggablePanel {...defaultProps} />);
+    render(<ResizableDraggablePanel children={""} {...defaultProps} />);
     fireEvent.click(screen.getByRole("button", { name: "Close" }));
     expect(defaultProps.onClose).toHaveBeenCalled();
   });
 
   it("calls onMove when dragging", () => {
-    render(<ResizableDraggablePanel {...defaultProps} />);
+    render(<ResizableDraggablePanel children={""} {...defaultProps} />);
     const header = screen.getByText("Test Panel");
 
     fireEvent.mouseDown(header, { clientX: 100, clientY: 100 });
@@ -45,7 +45,7 @@ describe("ResizableDraggablePanel", () => {
   });
 
   it("calls onResize when resizing", () => {
-    render(<ResizableDraggablePanel {...defaultProps} />);
+    render(<ResizableDraggablePanel children={""} {...defaultProps} />);
     const resizeHandle = screen.getByTestId("polyline-svg-icon"); // svg handle
 
     fireEvent.mouseDown(resizeHandle, { clientX: 200, clientY: 200 });

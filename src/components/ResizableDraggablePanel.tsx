@@ -109,7 +109,7 @@ const ResizableDraggablePanel: React.FC<Props> = ({
         height,
         minWidth,
         minHeight,
-        background: "#232b3e",
+        background: "var(--background-color)",
         boxShadow: "0 2px 8px #0006",
         overflow: "hidden",
         border: "1px solid #3e4a6b",
@@ -159,7 +159,7 @@ const ResizableDraggablePanel: React.FC<Props> = ({
       <div
         className="panel-body"
         style={{
-          background: "#232b3e",
+          background: "var(--background-color)",
           padding: 12,
           height: `calc(100% - 40px)`,
           overflow: "auto",

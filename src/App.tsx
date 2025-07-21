@@ -9,6 +9,7 @@ import LoginComponent from "./components/LoginComponent";
 import UserProfile from "./components/UserProfile";
 import { panelList } from "./panelList";
 import { logoutIfInactive } from "./utils/authUtils";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 /**
  * Represents an open panel's state and position.
@@ -256,243 +257,251 @@ export const App: FC = () => {
   const [activePanelId, setActivePanelId] = useState<string | null>(null);
 
   return (
-    <div
-      className={`app-root theme-${theme}`}
-      style={{ display: "flex", height: "100vh" }}
-    >
-      {/* Navigation Bar */}
-      {navOpen && (
-        <nav
-          style={{
-            width: 90, // Increased width
-            background: "#232b3e",
-            padding: "0.5rem 0.25rem",
-            borderRight: "1px solid #3e4a6b",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            minWidth: 90, // Increased minWidth
-            boxSizing: "border-box",
-          }}
-        >
-          <ul
+    <ThemeProvider mode={theme}>
+      <div
+        className={`app-root theme-${theme}`}
+        style={{ display: "flex", height: "100vh" }}
+      >
+        {/* Navigation Bar */}
+        {navOpen && (
+          <nav
             style={{
-              listStyle: "none",
-              padding: 0,
-              margin: 0,
-              width: "100%",
+              width: 90, // Increased width
+              background: "var(--background-color)",
+              padding: "0.5rem 0.25rem",
+              borderRight: "1px solid #3e4a6b",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              minWidth: 90, // Increased minWidth
+              boxSizing: "border-box",
             }}
           >
-            {panelList.map((panel) => (
-              <li
-                key={panel.key}
-                style={{
-                  marginBottom: 16,
-                  cursor: "grab",
-                  fontWeight: "normal",
-                  background:
-                    dragNavPanelKey === panel.key ? "#353b4a" : undefined,
-                  padding: 8,
-                  borderRadius: 10,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: 13,
-                  color: "#e0e0e0",
-                  width: "100%",
-                  transition: "background 0.2s",
-                  textAlign: "center", // Center text
-                  minHeight: 64,
-                }}
-                draggable
-                onDragStart={onNavDragStart(panel.key)}
-                onDragEnd={() => setDragNavPanelKey(null)}
-                title={panel.title}
-              >
-                <span style={{ marginBottom: 4 }}>
-                  {panel.key === "fruitbook" ? (
-                    <TermsIcon />
-                  ) : panel.key === "fruitview" ? (
-                    <FruitViewIcon />
-                  ) : panel.key === "about" ? (
-                    <AboutIcon />
-                  ) : null}
-                </span>
-                <span
-                  style={{
-                    width: "100%",
-                    textAlign: "center", // Center text
-                    fontSize: 13,
-                    fontWeight: 500,
-                    lineHeight: 1.2,
-                    wordBreak: "break-word",
-                  }}
-                >
-                  {panel.title}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
-
-      {/* Panel Area */}
-      <MainWorkspace
-        onDrop={onMainDrop}
-        onDragOver={onMainDragOver}
-        onGridDropInfo={handleGridDropInfo}
-        gridRows={GRID_ROWS}
-        gridCols={GRID_COLS}
-      >
-        <main
-          style={{
-            flex: 1,
-            position: "relative",
-            background: "#232b3e",
-            overflow: "hidden",
-            height: "100%",
-            width: "100%",
-          }}
-        >
-          {/* Top nav branding */}
-          <div
-            style={{
-              width: "100%",
-              background: "linear-gradient(90deg, #2b3556 0%, #3e4a6b 100%)",
-              color: "#fff",
-              padding: "0.5rem 1.5rem",
-              fontWeight: 600,
-              fontSize: 20,
-              letterSpacing: 1,
-              position: "sticky",
-              top: 0,
-              zIndex: 2000,
-              display: "flex",
-              alignItems: "center",
-              boxShadow: "0 2px 8px #0002",
-              minHeight: NAV_BAR_HEIGHT,
-              borderBottom: "1px solid #3e4a6b",
-            }}
-          >
-            {/* Hamburger/X icon */}
-            <button
-              onClick={() => setNavOpen((v) => !v)}
+            <ul
               style={{
-                background: "transparent",
-                border: "none",
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {panelList.map((panel) => (
+                <li
+                  key={panel.key}
+                  style={{
+                    marginBottom: 16,
+                    cursor: "grab",
+                    fontWeight: "normal",
+                    background:
+                      dragNavPanelKey === panel.key ? "#353b4a" : undefined,
+                    padding: 8,
+                    borderRadius: 10,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 13,
+                    color: "var(--text-color)",
+                    width: "100%",
+                    transition: "background 0.2s",
+                    textAlign: "center", // Center text
+                    minHeight: 64,
+                  }}
+                  draggable
+                  onDragStart={onNavDragStart(panel.key)}
+                  onDragEnd={() => setDragNavPanelKey(null)}
+                  title={panel.title}
+                >
+                  <span style={{ marginBottom: 4 }}>
+                    {panel.key === "fruitbook" ? (
+                      <TermsIcon />
+                    ) : panel.key === "fruitview" ? (
+                      <FruitViewIcon />
+                    ) : panel.key === "about" ? (
+                      <AboutIcon />
+                    ) : null}
+                  </span>
+                  <span
+                    style={{
+                      width: "100%",
+                      textAlign: "center", // Center text
+                      fontSize: 13,
+                      fontWeight: 500,
+                      lineHeight: 1.2,
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {panel.title}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+
+        {/* Panel Area */}
+        <MainWorkspace
+          onDrop={onMainDrop}
+          onDragOver={onMainDragOver}
+          onGridDropInfo={handleGridDropInfo}
+          gridRows={GRID_ROWS}
+          gridCols={GRID_COLS}
+        >
+          <main
+            style={{
+              flex: 1,
+              position: "relative",
+              background: "var(--background-color)",
+              overflow: "hidden",
+              height: "100%",
+              width: "100%",
+            }}
+          >
+            {/* Top nav branding */}
+            <div
+              style={{
+                width: "100%",
+                background: "linear-gradient(90deg, #2b3556 0%, #3e4a6b 100%)",
                 color: "#fff",
-                fontSize: 26,
-                cursor: "pointer",
-                marginRight: 20,
+                padding: "0.5rem 1.5rem",
+                fontWeight: 600,
+                fontSize: 20,
+                letterSpacing: 1,
+                position: "sticky",
+                top: 0,
+                zIndex: 2000,
                 display: "flex",
                 alignItems: "center",
-                padding: 0,
-                height: 40,
-                width: 40,
-                borderRadius: 8,
-                transition: "background 0.2s",
-                boxShadow: navOpen ? "0 2px 8px #0002" : undefined,
-              }}
-              aria-label="Toggle navigation"
-            >
-              <span style={{ display: "inline-block", width: 28, height: 28 }}>
-                {navOpen ? (
-                  // X icon
-                  <svg width="28" height="28" viewBox="0 0 28 28">
-                    <line
-                      x1="7"
-                      y1="7"
-                      x2="21"
-                      y2="21"
-                      stroke="#fff"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    />
-                    <line
-                      x1="21"
-                      y1="7"
-                      x2="7"
-                      y2="21"
-                      stroke="#fff"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                ) : (
-                  // Hamburger icon
-                  <svg width="28" height="28" viewBox="0 0 28 28">
-                    <rect y="6" width="28" height="3" rx="1.5" fill="#fff" />
-                    <rect y="13" width="28" height="3" rx="1.5" fill="#fff" />
-                    <rect y="20" width="28" height="3" rx="1.5" fill="#fff" />
-                  </svg>
-                )}
-              </span>
-            </button>
-            {/* App title */}
-            <span
-              style={{
-                fontFamily: "monospace",
-                fontWeight: 700,
-                fontSize: 22,
-                letterSpacing: 2,
-                color: "#fff",
-                textShadow: "0 1px 2px #0006",
-                userSelect: "none",
-                textTransform: "uppercase",
+                boxShadow: "0 2px 8px #0002",
+                minHeight: NAV_BAR_HEIGHT,
+                borderBottom: "1px solid #3e4a6b",
               }}
             >
-              fruteria
-            </span>
-            {/* Spacer to push UserProfile to the right */}
-            <div style={{ flex: 1 }} />
-            {/* UserProfile on the right */}
-            <div style={{ marginRight: 32 }}>
-              <UserProfile
-                onLogout={() => {
-                  localStorage.removeItem("isLoggedIn");
-                  window.dispatchEvent(new Event("login-success"));
+              {/* Hamburger/X icon */}
+              <button
+                onClick={() => setNavOpen((v) => !v)}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#fff",
+                  fontSize: 26,
+                  cursor: "pointer",
+                  marginRight: 20,
+                  display: "flex",
+                  alignItems: "center",
+                  padding: 0,
+                  height: 40,
+                  width: 40,
+                  borderRadius: 8,
+                  transition: "background 0.2s",
+                  boxShadow: navOpen ? "0 2px 8px #0002" : undefined,
                 }}
-                onThemeToggle={handleThemeToggle}
-                theme={theme}
-              />
-            </div>
-          </div>
-          {openPanels.length === 0 ? (
-            <div
-              style={{ color: "#888", textAlign: "center", marginTop: "2rem" }}
-            >
-              No panels open.
-              <br />
-              Drag one from the navigation bar.
-            </div>
-          ) : (
-            openPanels.map((panel) => (
-              <ResizableDraggablePanel
-                key={panel.id}
-                id={panel.id}
-                title={panel.title}
-                x={panel.x}
-                y={panel.y}
-                width={panel.width}
-                height={panel.height}
-                onClose={() => handleClose(panel.id)}
-                onMove={(dx, dy) => handlePanelMove(panel.id, dx, dy)}
-                onResize={(dw, dh) => handlePanelResize(panel.id, dw, dh)}
-                isDragging={activePanelId === panel.id}
-                onDragStart={() => setActivePanelId(panel.id)}
-                onDragEnd={() => setActivePanelId(null)}
+                aria-label="Toggle navigation"
               >
-                {panel.content}
-              </ResizableDraggablePanel>
-            ))
-          )}
-        </main>
-      </MainWorkspace>
-    </div>
+                <span
+                  style={{ display: "inline-block", width: 28, height: 28 }}
+                >
+                  {navOpen ? (
+                    // X icon
+                    <svg width="28" height="28" viewBox="0 0 28 28">
+                      <line
+                        x1="7"
+                        y1="7"
+                        x2="21"
+                        y2="21"
+                        stroke="#fff"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+                      <line
+                        x1="21"
+                        y1="7"
+                        x2="7"
+                        y2="21"
+                        stroke="#fff"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  ) : (
+                    // Hamburger icon
+                    <svg width="28" height="28" viewBox="0 0 28 28">
+                      <rect y="6" width="28" height="3" rx="1.5" fill="#fff" />
+                      <rect y="13" width="28" height="3" rx="1.5" fill="#fff" />
+                      <rect y="20" width="28" height="3" rx="1.5" fill="#fff" />
+                    </svg>
+                  )}
+                </span>
+              </button>
+              {/* App title */}
+              <span
+                style={{
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  fontSize: 22,
+                  letterSpacing: 2,
+                  color: "#fff",
+                  textShadow: "0 1px 2px #0006",
+                  userSelect: "none",
+                  textTransform: "uppercase",
+                }}
+              >
+                fruteria
+              </span>
+              {/* Spacer to push UserProfile to the right */}
+              <div style={{ flex: 1 }} />
+              {/* UserProfile on the right */}
+              <div style={{ marginRight: 32 }}>
+                <UserProfile
+                  onLogout={() => {
+                    localStorage.removeItem("isLoggedIn");
+                    window.dispatchEvent(new Event("login-success"));
+                  }}
+                  onThemeToggle={handleThemeToggle}
+                  theme={theme}
+                />
+              </div>
+            </div>
+            {openPanels.length === 0 ? (
+              <div
+                style={{
+                  color: "#888",
+                  textAlign: "center",
+                  marginTop: "2rem",
+                }}
+              >
+                No panels open.
+                <br />
+                Drag one from the navigation bar.
+              </div>
+            ) : (
+              openPanels.map((panel) => (
+                <ResizableDraggablePanel
+                  key={panel.id}
+                  id={panel.id}
+                  title={panel.title}
+                  x={panel.x}
+                  y={panel.y}
+                  width={panel.width}
+                  height={panel.height}
+                  onClose={() => handleClose(panel.id)}
+                  onMove={(dx, dy) => handlePanelMove(panel.id, dx, dy)}
+                  onResize={(dw, dh) => handlePanelResize(panel.id, dw, dh)}
+                  isDragging={activePanelId === panel.id}
+                  onDragStart={() => setActivePanelId(panel.id)}
+                  onDragEnd={() => setActivePanelId(null)}
+                >
+                  {panel.content}
+                </ResizableDraggablePanel>
+              ))
+            )}
+          </main>
+        </MainWorkspace>
+      </div>
+    </ThemeProvider>
   );
 };
 
