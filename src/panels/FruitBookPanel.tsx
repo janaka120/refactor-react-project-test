@@ -188,7 +188,7 @@ const FruitBook: React.FC = () => {
                   fontFamily: "monospace",
                   fontSize: 16,
                   color: "var(--text-color)",
-                  background: "#7c5fe6",
+                  background: "var(--row-selected-background-color)",
                 };
               }
               return {
@@ -198,7 +198,7 @@ const FruitBook: React.FC = () => {
                 background:
                   params.node.rowIndex % 2 === 0
                     ? "var(--panel-background-color)"
-                    : "#262f47",
+                    : "var(--row-background-color-odd)",
               };
             }}
             suppressCellFocus={true}

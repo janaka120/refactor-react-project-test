@@ -4,8 +4,33 @@
     <meta charset="UTF-8" />
     <title>fruteria</title>
     <meta name="viewport" content="width=700, initial-scale=1" />
+
+    <!-- Add this inline script to apply theme ASAP -->
+    <script>
+      (function () {
+        const theme = localStorage.getItem("theme") || "dark";
+        document.documentElement.className = `theme-${theme}`;
+      })();
+    </script>
+
+    <style>
+      /* Fallback background based on theme (applies before React) */
+      html.theme-dark,
+      body.theme-dark {
+        background: #232b3e;
+      }
+
+      html.theme-light,
+      body.theme-light {
+        background: #f5f5f5;
+      }
+
+      body {
+        margin: 0;
+      }
+    </style>
   </head>
-  <body style="margin:0; background:#232b3e;">
+  <body>
     <div id="root"></div>
   </body>
 </html>

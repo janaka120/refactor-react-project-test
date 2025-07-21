@@ -12,6 +12,8 @@
 @light-text-shadow: rgba(0, 0, 0, 0.2);
 @light-gradient-start: #dbe1f1;
 @light-gradient-end: #66bb6a;
+@light-row-background-color-odd: #eef1f7;
+@light-row-selected-background-color: #b4a4fa;
 
 // Dark Theme Variables
 @dark-primary-color: #81c784;
@@ -25,6 +27,8 @@
 @dark-text-shadow: rgba(0, 0, 0, 0.4);
 @dark-gradient-start: #2b3556;
 @dark-gradient-end: #3e4a6b;
+@dark-row-background-color-odd: #262f47;
+@dark-row-selected-background-color: #7c5fe6;
 
 // Default (for backward compatibility)
 @primary-color: @light-primary-color;
@@ -55,6 +59,8 @@ body {
   --text-shadow: @light-text-shadow;
   --gradient-start: @light-gradient-start;
   --gradient-end: @light-gradient-end;
+  --row-background-color-odd: @light-row-background-color-odd;
+  --row-selected-background-color: @light-row-selected-background-color;
 
   background: var(--background-color);
   color: var(--text-color);
@@ -73,6 +79,8 @@ body {
   --text-shadow: @dark-text-shadow;
   --gradient-start: @dark-gradient-start;
   --gradient-end: @dark-gradient-end;
+  --row-background-color-odd: @dark-row-background-color-odd; // default dark odd row color
+  --row-selected-background-color: @dark-row-selected-background-color; // selected row
 
   background: var(--background-color);
   color: var(--text-color);
