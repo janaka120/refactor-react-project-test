@@ -124,12 +124,16 @@ const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({
     >
       <div
         className="ag-theme-alpine"
-        style={{ ...gridStyle, height: panelState.height - 40 }}
+        style={{
+          ...gridStyle,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
         <AgGridReact
           columnDefs={columnDefs}
           rowData={rowData}
-          domLayout="autoHeight"
           headerHeight={32}
           rowHeight={32}
           suppressCellFocus
