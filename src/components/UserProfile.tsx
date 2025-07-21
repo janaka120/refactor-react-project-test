@@ -2,47 +2,6 @@ import React, { useState } from "react";
 import { Button, Typography, Switch } from "antd";
 import { CheckOutlined, CloseOutlined, UserOutlined } from "@ant-design/icons";
 
-// Styles
-const popoverContainerStyle: React.CSSProperties = {
-  minWidth: 280,
-  padding: 28,
-  background: "#232634",
-  borderRadius: 14,
-  boxShadow: "0 4px 32px rgba(0,0,0,0.45)",
-  textAlign: "center",
-  color: "#f5f6fa",
-  border: "1px solid #2e3244",
-  position: "relative",
-};
-
-const logoutButtonStyle: React.CSSProperties = {
-  background: "#e74c3c",
-  borderColor: "#e74c3c",
-  color: "var(--text-color)",
-  fontWeight: 500,
-  borderRadius: 8,
-};
-
-const cancelButtonStyle: React.CSSProperties = {
-  marginTop: 10,
-  background: "transparent",
-  border: "1px solid #35394a",
-  color: "#b0b4c1",
-  borderRadius: 8,
-};
-
-const dividerStyle: React.CSSProperties = {
-  margin: "20px 0 16px 0",
-  borderTop: "1px solid #35394a",
-};
-
-const themeSwitchStyle: React.CSSProperties = {
-  marginLeft: 8,
-  marginTop: 16,
-  display: "inline-block",
-};
-
-// Add these props to the component's props type/interface:
 interface UserProfileProps {
   onLogout: () => void;
   onThemeToggle?: () => void;
@@ -57,7 +16,6 @@ interface UserPopoverProps {
   theme?: "dark" | "light";
 }
 
-// Update the component signature:
 const UserProfile: React.FC<UserProfileProps> = ({
   onLogout,
   onThemeToggle,
@@ -65,7 +23,6 @@ const UserProfile: React.FC<UserProfileProps> = ({
 }) => {
   const [visible, setVisible] = useState(false);
 
-  // You can fetch/display real user info here if available
   const userInfo = {
     name: "User",
     email: "user@email.com",
@@ -81,25 +38,53 @@ const UserProfile: React.FC<UserProfileProps> = ({
     onThemeToggle,
     theme,
   }) => (
-    <div style={popoverContainerStyle}>
-      <Typography.Text strong style={{ fontSize: 18, color: "#f5f6fa" }}>
+    <div
+      style={{
+        minWidth: 280,
+        padding: 28,
+        background: "var(--panel-background-color)",
+        borderRadius: 14,
+        boxShadow: "0 4px 32px var(--panel-shadow-color)",
+        textAlign: "center",
+        color: "var(--text-color)",
+        border: "1px solid var(--border-color)",
+        position: "relative",
+      }}
+    >
+      <Typography.Text
+        strong
+        style={{ fontSize: 18, color: "var(--text-color)" }}
+      >
         {userInfo.name}
       </Typography.Text>
       <br />
       <Typography.Text
         type="secondary"
-        style={{ fontSize: 14, color: "#b0b4c1" }}
+        style={{ fontSize: 14, color: "var(--text-color)" }}
       >
         {userInfo.email}
       </Typography.Text>
-      <div style={dividerStyle} />
-      <div style={{ marginBottom: 16, fontSize: 15, color: "#b0b4c1" }}>
+      <div
+        style={{
+          margin: "20px 0 16px 0",
+          borderTop: "1px solid var(--border-color)",
+        }}
+      />
+      <div
+        style={{ marginBottom: 16, fontSize: 15, color: "var(--text-color)" }}
+      >
         Do you want to log out?
       </div>
       <Button
         type="primary"
         block
-        style={logoutButtonStyle}
+        style={{
+          background: "#e74c3c",
+          borderColor: "#e74c3c",
+          color: "#fff",
+          fontWeight: 500,
+          borderRadius: 8,
+        }}
         onClick={() => {
           onCancel();
           onLogout();
@@ -107,18 +92,36 @@ const UserProfile: React.FC<UserProfileProps> = ({
       >
         Log out
       </Button>
-      <Button block style={cancelButtonStyle} onClick={onCancel}>
+      <Button
+        block
+        style={{
+          marginTop: 10,
+          background: "transparent",
+          border: "1px solid var(--border-color)",
+          color: "var(--text-color)",
+          borderRadius: 8,
+        }}
+        onClick={onCancel}
+      >
         Cancel
       </Button>
       {onThemeToggle && (
-        <div style={themeSwitchStyle}>
+        <div
+          style={{
+            marginLeft: 8,
+            marginTop: 16,
+            display: "inline-block",
+          }}
+        >
           <Switch
             checkedChildren={<CheckOutlined />}
             unCheckedChildren={<CloseOutlined />}
             checked={theme === "dark"}
             onChange={onThemeToggle}
           />
-          <span style={{ marginLeft: 8, color: "#b0b4c1", fontSize: 14 }}>
+          <span
+            style={{ marginLeft: 8, color: "var(--text-color)", fontSize: 14 }}
+          >
             {theme === "dark" ? "Light" : "Dark"} Theme
           </span>
         </div>
@@ -135,16 +138,15 @@ const UserProfile: React.FC<UserProfileProps> = ({
         alignItems: "center",
       }}
     >
-      {/* ...existing code for left/middle of top bar... */}
       <div style={{ marginLeft: "auto" }}>
         <Button
           shape="circle"
           icon={<UserOutlined />}
           onClick={handleOpen}
           style={{
-            background: "#232634",
-            border: "1px solid #35394a",
-            color: "#b0b4c1",
+            background: "var(--panel-background-color)",
+            border: "1px solid var(--border-color)",
+            color: "var(--text-color)",
           }}
         />
       </div>
