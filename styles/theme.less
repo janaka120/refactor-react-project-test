@@ -6,6 +6,12 @@
 @light-background-color: #f5f5f5;
 @light-text-color: #333;
 @light-border-radius: 4px;
+@light-panel-background-color: #ffffff;
+@light-panel-shadow-color: rgba(0, 0, 0, 0.1);
+@light-border-color: #d9d9d9;
+@light-text-shadow: rgba(0, 0, 0, 0.2);
+@light-gradient-start: #dbe1f1;
+@light-gradient-end: #66bb6a;
 
 // Dark Theme Variables
 @dark-primary-color: #81c784;
@@ -13,6 +19,12 @@
 @dark-background-color: #222;
 @dark-text-color: #f5f5f5;
 @dark-border-radius: 4px;
+@dark-panel-background-color: #232b3e;
+@dark-panel-shadow-color: rgba(0, 0, 0, 0.3);
+@dark-border-color: #3e4a6b;
+@dark-text-shadow: rgba(0, 0, 0, 0.4);
+@dark-gradient-start: #2b3556;
+@dark-gradient-end: #3e4a6b;
 
 // Default (for backward compatibility)
 @primary-color: @light-primary-color;
@@ -37,6 +49,12 @@ body {
   --background-color: @light-background-color;
   --text-color: @light-text-color;
   --border-radius: @light-border-radius;
+  --panel-background-color: @light-panel-background-color;
+  --panel-shadow-color: @light-panel-shadow-color;
+  --border-color: @light-border-color;
+  --text-shadow: @light-text-shadow;
+  --gradient-start: @light-gradient-start;
+  --gradient-end: @light-gradient-end;
 
   background: var(--background-color);
   color: var(--text-color);
@@ -49,6 +67,12 @@ body {
   --background-color: @dark-background-color;
   --text-color: @dark-text-color;
   --border-radius: @dark-border-radius;
+  --panel-background-color: @dark-panel-background-color;
+  --panel-shadow-color: @dark-panel-shadow-color;
+  --border-color: @dark-border-color;
+  --text-shadow: @dark-text-shadow;
+  --gradient-start: @dark-gradient-start;
+  --gradient-end: @dark-gradient-end;
 
   background: var(--background-color);
   color: var(--text-color);

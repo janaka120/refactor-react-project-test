@@ -31,9 +31,9 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
       <Card
         style={{
           minWidth: 340,
-          boxShadow: "0 2px 16px #0003",
+          boxShadow: "0 2px 16px var(--panel-shadow-color)",
           background: "var(--background-color)",
-          border: "1px solid #3e4a6b",
+          border: "1px solid var(--border-color)",
         }}
         styles={{
           body: { padding: 32 },
@@ -76,7 +76,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
               style={{
                 background: "var(--background-color)",
                 color: "var(--text-color)",
-                border: "1px solid #3e4a6b",
+                border: "1px solid var(--border-color)",
               }}
               placeholder="Enter your username"
             />
@@ -95,7 +95,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
               style={{
                 background: "var(--background-color)",
                 color: "var(--text-color)",
-                border: "1px solid #3e4a6b",
+                border: "1px solid var(--border-color)",
               }}
               placeholder="Enter your password"
               name="password"
@@ -117,7 +117,8 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
               style={{
                 fontWeight: 600,
                 letterSpacing: 1,
-                background: "linear-gradient(90deg, #2b3556 0%, #3e4a6b 100%)",
+                background:
+                  "linear-gradient(90deg, var(--gradient-start) 0%, var(--border-color) 100%)",
                 border: "none",
                 color: "var(--text-color)",
                 boxShadow: "0 2px 8px #0002",

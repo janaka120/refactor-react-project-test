@@ -269,7 +269,7 @@ export const App: FC = () => {
               width: 90, // Increased width
               background: "var(--background-color)",
               padding: "0.5rem 0.25rem",
-              borderRight: "1px solid #3e4a6b",
+              borderRight: "1px solid var(--border-color)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -364,7 +364,8 @@ export const App: FC = () => {
             <div
               style={{
                 width: "100%",
-                background: "linear-gradient(90deg, #2b3556 0%, #3e4a6b 100%)",
+                background:
+                  "linear-gradient(90deg, var(--gradient-start) 0%, var(--border-color) 100%)",
                 color: "#fff",
                 padding: "0.5rem 1.5rem",
                 fontWeight: 600,
@@ -377,7 +378,7 @@ export const App: FC = () => {
                 alignItems: "center",
                 boxShadow: "0 2px 8px #0002",
                 minHeight: NAV_BAR_HEIGHT,
-                borderBottom: "1px solid #3e4a6b",
+                borderBottom: "1px solid var(--border-color)",
               }}
             >
               {/* Hamburger/X icon */}
@@ -398,6 +399,7 @@ export const App: FC = () => {
                   borderRadius: 8,
                   transition: "background 0.2s",
                   boxShadow: navOpen ? "0 2px 8px #0002" : undefined,
+                  justifyContent: "center",
                 }}
                 aria-label="Toggle navigation"
               >

@@ -111,7 +111,7 @@ const columnDefs: ColDef[] = [
       fontWeight: 700,
       fontFamily: "monospace",
       fontSize: 16,
-      background: "#232b3e",
+      background: "var(--panel-background-color)",
     }),
   },
   { headerName: "Details", field: "details", minWidth: 180 },
@@ -142,14 +142,20 @@ const FruitBook: React.FC = () => {
 
   return (
     <>
-      <div style={{ padding: 0, background: "#232b3e", height: 600 }}>
+      <div
+        style={{
+          padding: 0,
+          background: "var(--panel-background-color)",
+          height: 600,
+        }}
+      >
         <div
           style={{
             fontFamily: "monospace",
             fontWeight: 700,
             fontSize: 22,
             color: "var(--text-color)",
-            background: "#232b3e",
+            background: "var(--panel-background-color)",
             padding: "16px 24px 10px 24px",
             borderBottom: "1px solid #353b4a",
             letterSpacing: 1,
@@ -190,7 +196,9 @@ const FruitBook: React.FC = () => {
                 fontSize: 16,
                 color: "var(--text-color)",
                 background:
-                  params.node.rowIndex % 2 === 0 ? "#232b3e" : "#262f47",
+                  params.node.rowIndex % 2 === 0
+                    ? "var(--panel-background-color)"
+                    : "#262f47",
               };
             }}
             suppressCellFocus={true}

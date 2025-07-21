@@ -8,9 +8,9 @@ export type PanelProps = {
 const Panel: React.FC<PanelProps> = ({ title, children }) => (
   <div
     style={{
-      background: "#232b3e",
+      background: "var(--panel-background-color)",
       borderRadius: 8,
-      boxShadow: "0 2px 8px #0003",
+      boxShadow: "0 2px 8px var(--panel-shadow-color)",
       padding: 24,
       margin: 16,
       color: "var(--text-color)",
