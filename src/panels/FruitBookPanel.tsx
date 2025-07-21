@@ -144,9 +144,10 @@ const FruitBook: React.FC = () => {
     <>
       <div
         style={{
-          padding: 0,
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
           background: "var(--panel-background-color)",
-          height: 600,
         }}
       >
         <div
@@ -163,46 +164,49 @@ const FruitBook: React.FC = () => {
         >
           Fruit Book
         </div>
-        <div
-          className="ag-theme-alpine"
-          style={{
-            height: 480,
-            width: "100%",
-            minWidth: 700,
-            border: "1px solid #7c5fe6",
-          }}
-        >
-          <AgGridReact<any>
-            ref={gridRef}
-            rowData={fruits}
-            columnDefs={columnDefs}
-            defaultColDef={defaultColDef}
-            headerHeight={38}
-            rowHeight={38}
-            rowSelection="single"
-            onSelectionChanged={onSelectionChanged}
-            onRowDoubleClicked={onRowDoubleClicked}
-            getRowStyle={(params) => {
-              if (selectedFruit && params.data.id === selectedFruit.id) {
+
+        <div style={{ flexGrow: 1, minHeight: 0 }}>
+          <div
+            className="ag-theme-alpine"
+            style={{
+              height: "100%",
+              width: "100%",
+              border: "1px solid #7c5fe6",
+              background: "var(--panel-background-color)",
+            }}
+          >
+            <AgGridReact
+              ref={gridRef}
+              rowData={fruits}
+              columnDefs={columnDefs}
+              defaultColDef={defaultColDef}
+              headerHeight={38}
+              rowHeight={38}
+              rowSelection="single"
+              onSelectionChanged={onSelectionChanged}
+              onRowDoubleClicked={onRowDoubleClicked}
+              getRowStyle={(params) => {
+                if (selectedFruit && params.data.id === selectedFruit.id) {
+                  return {
+                    fontFamily: "monospace",
+                    fontSize: 16,
+                    color: "var(--text-color)",
+                    background: "var(--row-selected-background-color)",
+                  };
+                }
                 return {
                   fontFamily: "monospace",
                   fontSize: 16,
                   color: "var(--text-color)",
-                  background: "var(--row-selected-background-color)",
+                  background:
+                    params.node.rowIndex % 2 === 0
+                      ? "var(--panel-background-color)"
+                      : "var(--row-background-color-odd)",
                 };
-              }
-              return {
-                fontFamily: "monospace",
-                fontSize: 16,
-                color: "var(--text-color)",
-                background:
-                  params.node.rowIndex % 2 === 0
-                    ? "var(--panel-background-color)"
-                    : "var(--row-background-color-odd)",
-              };
-            }}
-            suppressCellFocus={true}
-          />
+              }}
+              suppressCellFocus={true}
+            />
+          </div>
         </div>
       </div>
       {selectedFruit &&
