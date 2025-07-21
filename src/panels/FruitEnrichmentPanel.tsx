@@ -6,16 +6,16 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
 const gridStyle: React.CSSProperties = {
-  background: "#20263a",
-  border: "1.5px solid #2e3650",
+  background: "var(--panel-background-color)",
+  border: "1.5px solid var(--border-color)",
   borderRadius: 10,
   padding: "18px 24px",
   fontFamily: "monospace",
-  color: "#e0e6f5",
+  color: "var(--text-color)",
   fontSize: 15,
   minWidth: 260,
   minHeight: 120,
-  boxShadow: "0 2px 8px #0004",
+  boxShadow: "0 2px 8px var(--panel-shadow-color)",
   margin: 0,
 };
 
@@ -124,7 +124,7 @@ const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({
     >
       <div
         className="ag-theme-alpine"
-        style={{ height: panelState.height - 40 }}
+        style={{ ...gridStyle, height: panelState.height - 40 }}
       >
         <AgGridReact
           columnDefs={columnDefs}
@@ -135,6 +135,18 @@ const FruitEnrichmentPanel: React.FC<FruitEnrichmentPanelProps> = ({
           suppressCellFocus
           suppressMovableColumns
           suppressMenuHide
+          getRowStyle={(params) => {
+            const isEven = params.node.rowIndex % 2 === 0;
+
+            return {
+              fontFamily: "monospace",
+              fontSize: 16,
+              color: "var(--text-color)",
+              background: isEven
+                ? "var(--panel-background-color)"
+                : "var(--panel-background-alt-color)",
+            };
+          }}
         />
       </div>
     </ResizableDraggablePanel>
