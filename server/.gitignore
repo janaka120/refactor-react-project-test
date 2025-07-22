@@ -1,0 +1,69 @@
+# Node.js
+# `node_modules` should always be ignored
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/
+
+# Environment variables
+# This is crucial for security!
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Build/Dist directories
+# If your server compiles/transpiles code (e.g., TypeScript to JavaScript)
+dist/
+build/
+out/
+es/
+lib/
+tmp/
+temp/
+
+# Dependency directories for various package managers (if not using npm/yarn exclusively)
+jspm_packages/
+
+# Editor/IDE-specific files
+.vscode/        # VS Code specific settings (can be committed if shared settings are desired)
+.idea/          # IntelliJ IDEA
+*.sublime-project
+*.sublime-workspace
+.project
+.DS_Store       # macOS
+Thumbs.db       # Windows
+
+# Misc
+.cache/
+.nyc_output/    # Istanbul coverage reports
+coverage/       # Jest/other test coverage reports
+.lock-wscript
+.wafpickle-*
+*.psd           # Photoshop files
+*.sublime-project # Sublime Text project files
+*.sublime-workspace # Sublime Text workspace files
+*.swp           # Vim swap files
+
+# Database files (if you're not using a cloud DB and have local files)
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploaded files (if your server handles file uploads)
+uploads/

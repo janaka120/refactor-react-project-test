@@ -15,7 +15,7 @@
 @light-row-background-color-odd: #eef1f7;
 @light-row-selected-background-color: #b4a4fa;
 @light-panel-background-alt-color: #e9edf5;
-
+@light-placeholder-color: #999;
 // Dark Theme Variables
 @dark-primary-color: #81c784;
 @dark-secondary-color: #ffd54f;
@@ -31,6 +31,7 @@
 @dark-row-background-color-odd: #262f47;
 @dark-row-selected-background-color: #7c5fe6;
 @dark-panel-background-alt-color: #262f47;
+@dark-placeholder-color: #bbb;
 
 // Default (for backward compatibility)
 @primary-color: @light-primary-color;
@@ -64,6 +65,7 @@ body {
   --row-background-color-odd: @light-row-background-color-odd;
   --row-selected-background-color: @light-row-selected-background-color;
   --panel-background-alt-color: @light-panel-background-alt-color;
+  --placeholder-color: @light-placeholder-color;
 
   background: var(--background-color);
   color: var(--text-color);
@@ -85,6 +87,7 @@ body {
   --row-background-color-odd: @dark-row-background-color-odd; // default dark odd row color
   --row-selected-background-color: @dark-row-selected-background-color; // selected row
   --panel-background-alt-color: @dark-panel-background-alt-color;
+  --placeholder-color: @dark-placeholder-color;
 
   background: var(--background-color);
   color: var(--text-color);
@@ -128,4 +131,11 @@ a {
   font-family: monospace;
 }
 
+input::placeholder,
+textarea::placeholder,
+.ant-input::placeholder,
+.ant-input-password input::placeholder {
+  color: var(--placeholder-color);
+  opacity: 1;
+}
 // Add more theme styles as needed...

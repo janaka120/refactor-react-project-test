@@ -7,13 +7,34 @@ type LoginComponentProps = {
 
 const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
   const [form] = Form.useForm();
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string | null>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleFinish = ({ username, password }: any) => {
-    if (username === "admin" && password === "1234") {
-      onLoginSuccess?.();
-    } else {
-      setErrorMsg("Invalid credentials");
+  const handleFinish = async (values) => {
+    setErrorMsg(null);
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        onLoginSuccess(); // Call the success callback, passing the token
+      } else {
+        setErrorMsg(data.message || "Login failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Login API call failed:", error);
+      setErrorMsg("Network error. Could not connect to the server.");
+    } finally {
+      setLoading(false); // Always set loading to false after the attempt
     }
   };
 
@@ -114,6 +135,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ onLoginSuccess }) => {
               type="primary"
               htmlType="submit"
               block
+              loading={loading}
               style={{
                 fontWeight: 600,
                 letterSpacing: 1,

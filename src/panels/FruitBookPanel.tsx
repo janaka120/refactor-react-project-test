@@ -9,7 +9,7 @@ import FruitEnrichmentPanel from "./FruitEnrichmentPanel";
 // Register AG Grid modules
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-const rawFruits = [
+const FRUITS = [
   {
     id: "F001",
     name: "Banana",
@@ -105,28 +105,65 @@ const getStatusCellStyle = (status: string) => ({
   background: "var(--panel-background-color)",
 });
 
-const columnDefs: ColDef[] = [
-  { headerName: "ID", field: "id", minWidth: 90 },
-  { headerName: "Fruit", field: "name", minWidth: 120 },
-  { headerName: "Country", field: "country", minWidth: 120 },
-  { headerName: "Type", field: "type", minWidth: 120 },
-  {
-    headerName: "Status",
-    field: "status",
-    minWidth: 120,
-    cellStyle: (params) => getStatusCellStyle(params.value),
+const panelStyles = {
+  container: {
+    display: "flex",
+    flexDirection: "column" as const,
+    height: "100%",
+    background: "var(--panel-background-color)",
   },
-  { headerName: "Details", field: "details", minWidth: 180 },
-];
-
-const defaultColDef: ColDef = {
-  flex: 1,
-  resizable: true,
+  header: {
+    fontFamily: "monospace",
+    fontWeight: 700,
+    fontSize: 22,
+    color: "var(--text-color)",
+    background: "var(--panel-background-color)",
+    padding: "16px 24px 10px",
+    borderBottom: "1px solid #353b4a",
+    letterSpacing: 1,
+  },
+  gridContainer: {
+    flexGrow: 1,
+    minHeight: 0,
+  },
+  agGrid: {
+    height: "100%",
+    width: "100%",
+    border: "1px solid #7c5fe6",
+    background: "var(--panel-background-color)",
+  },
 };
 
 const FruitBook: React.FC = () => {
   const [selectedFruit, setSelectedFruit] = useState<any | null>(null);
   const gridRef = useRef<any>(null);
+
+  const fruits = useMemo(() => FRUITS, []);
+
+  const columns = useMemo<ColDef[]>(
+    () => [
+      { headerName: "ID", field: "id", minWidth: 90 },
+      { headerName: "Fruit", field: "name", minWidth: 120 },
+      { headerName: "Country", field: "country", minWidth: 120 },
+      { headerName: "Type", field: "type", minWidth: 120 },
+      {
+        headerName: "Status",
+        field: "status",
+        minWidth: 120,
+        cellStyle: ({ value }) => getStatusCellStyle(value),
+      },
+      { headerName: "Details", field: "details", minWidth: 180 },
+    ],
+    []
+  );
+
+  const defaultColDef = useMemo<ColDef>(
+    () => ({
+      flex: 1,
+      resizable: true,
+    }),
+    []
+  );
 
   const handleRowDoubleClick = (event: any) => {
     setSelectedFruit(event.data);
@@ -139,74 +176,52 @@ const FruitBook: React.FC = () => {
     }
   };
 
+  const getRowStyle = ({
+    data,
+    rowIndex,
+  }: {
+    data: any;
+    rowIndex: number;
+  }) => ({
+    fontFamily: "monospace",
+    fontSize: 16,
+    color: "var(--text-color)",
+    background:
+      selectedFruit?.id === data.id
+        ? "var(--row-selected-background-color)"
+        : rowIndex % 2 === 0
+        ? "var(--panel-background-color)"
+        : "var(--row-background-color-odd)",
+  });
+
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          background: "var(--panel-background-color)",
-        }}
-      >
-        <header
-          style={{
-            fontFamily: "monospace",
-            fontWeight: 700,
-            fontSize: 22,
-            color: "var(--text-color)",
-            background: "var(--panel-background-color)",
-            padding: "16px 24px 10px",
-            borderBottom: "1px solid #353b4a",
-            letterSpacing: 1,
-          }}
-        >
-          Fruit Book
-        </header>
-
-        <div style={{ flexGrow: 1, minHeight: 0 }}>
-          <div
-            className="ag-theme-alpine"
-            style={{
-              height: "100%",
-              width: "100%",
-              border: "1px solid #7c5fe6",
-              background: "var(--panel-background-color)",
-            }}
-          >
+      <div style={panelStyles.container}>
+        <header style={panelStyles.header}>Fruit Book</header>
+        <div style={panelStyles.gridContainer}>
+          <div className="ag-theme-alpine" style={panelStyles.agGrid}>
             <AgGridReact
               ref={gridRef}
+              rowData={fruits}
+              columnDefs={columns}
+              defaultColDef={defaultColDef}
+              rowSelection="single"
               pagination={true}
               paginationPageSize={50}
-              cacheBlockSize={50}
-              rowData={rawFruits}
-              columnDefs={columnDefs}
-              defaultColDef={defaultColDef}
+              cacheBlockSize={100}
               headerHeight={38}
               rowHeight={38}
-              rowSelection="single"
               suppressCellFocus
-              onRowDoubleClicked={handleRowDoubleClick}
-              onSelectionChanged={handleSelectionChange}
-              getRowStyle={({ data, node }) => ({
-                fontFamily: "monospace",
-                fontSize: 16,
-                color: "var(--text-color)",
-                background:
-                  selectedFruit?.id === data.id
-                    ? "var(--row-selected-background-color)"
-                    : node.rowIndex % 2 === 0
-                    ? "var(--panel-background-color)"
-                    : "var(--row-background-color-odd)",
-              })}
               animateRows={true}
               enableCellTextSelection={true}
               suppressRowHoverHighlight={true}
+              getRowStyle={getRowStyle}
+              onRowDoubleClicked={handleRowDoubleClick}
+              onSelectionChanged={handleSelectionChange}
             />
           </div>
         </div>
       </div>
-
       {selectedFruit &&
         ReactDOM.createPortal(
           <FruitEnrichmentPanel
