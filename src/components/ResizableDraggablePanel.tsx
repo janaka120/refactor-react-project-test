@@ -20,34 +20,34 @@ interface Props {
   zIndex?: number;
 }
 
-const ResizableDraggablePanel: React.FC<Props> = ({
-  id,
-  title,
-  x,
-  y,
-  width,
-  height,
-  minWidth = 200,
-  minHeight = 100,
-  onMove,
-  onResize,
-  onClose,
-  children,
-  onDragStart,
-  onDragEnd,
-  isDragging = false,
-  zIndex,
-}) => {
+const ResizableDraggablePanel: React.FC<Props> = (props) => {
+  const {
+    id,
+    title,
+    x,
+    y,
+    width,
+    height,
+    minWidth = 200,
+    minHeight = 100,
+    onMove,
+    onResize,
+    onClose,
+    children,
+    onDragStart,
+    onDragEnd,
+    isDragging = false,
+    zIndex,
+  } = props;
+
   const panelRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState(false);
   const [resizing, setResizing] = useState(false);
   const [start, setStart] = useState({ x: 0, y: 0 });
 
-  const fire = (name: "panel-drag-start" | "panel-drag-end") => {
+  const fire = (name: "panel-drag-start" | "panel-drag-end") =>
     window.dispatchEvent(new CustomEvent(name, { detail: { id } }));
-  };
 
-  // Dragging
   const handleMouseDown = (e: React.MouseEvent) => {
     e.stopPropagation();
     setDragging(true);
@@ -56,7 +56,6 @@ const ResizableDraggablePanel: React.FC<Props> = ({
     fire("panel-drag-start");
   };
 
-  // Resizing
   const handleResizeMouseDown = (e: React.MouseEvent) => {
     e.stopPropagation();
     setResizing(true);
@@ -85,11 +84,12 @@ const ResizableDraggablePanel: React.FC<Props> = ({
       }
     };
 
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, [dragging, resizing, start, onMove, onResize, onDragEnd]);
 
@@ -139,6 +139,8 @@ const ResizableDraggablePanel: React.FC<Props> = ({
       >
         <span>{title}</span>
         <button
+          aria-label="Close"
+          title="Close"
           onClick={onClose}
           style={{
             background: "transparent",
@@ -164,8 +166,27 @@ const ResizableDraggablePanel: React.FC<Props> = ({
       >
         {children}
       </div>
-      <div className="resize-handle" onMouseDown={handleResizeMouseDown}>
-        <svg viewBox="0 0 12 12" width="12" height="12">
+      <div
+        className="resize-handle"
+        onMouseDown={handleResizeMouseDown}
+        data-testid="resize-handle"
+        style={{
+          position: "absolute",
+          right: 4,
+          bottom: 4,
+          width: 16,
+          height: 16,
+          cursor: "nwse-resize",
+          overflow: "visible",
+          zIndex: 2,
+        }}
+      >
+        <svg
+          viewBox="0 0 12 12"
+          width="12"
+          height="12"
+          data-testid="polyline-svg-icon"
+        >
           <polyline
             points="1,11 11,11 11,1"
             fill="none"
