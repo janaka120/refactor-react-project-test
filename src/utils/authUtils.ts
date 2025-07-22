@@ -1,4 +1,3 @@
-// utils/authUtils.ts
 export const isLoggedIn = () => !!localStorage.getItem("isLoggedIn");
 
 export const logoutIfInactive = () => {
