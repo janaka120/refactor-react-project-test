@@ -42,7 +42,7 @@ describe("AboutPanel", () => {
     const mainDiv = container.firstChild as HTMLElement;
     expect(mainDiv).toBeInTheDocument();
     expect(mainDiv).toHaveStyle("padding: 24px");
-    expect(mainDiv).toHaveStyle("color: rgb(224, 224, 224)");
+    expect(mainDiv).toHaveStyle("color: var(--text-color)");
     expect(mainDiv).toHaveStyle("font-family: monospace");
   });
 
@@ -50,7 +50,7 @@ describe("AboutPanel", () => {
     render(<AboutPanel />);
     const heading = screen.getByRole("heading", { name: /About/i, level: 2 });
 
-    expect(heading).toHaveStyle("color: rgb(255, 255, 255)");
+    expect(heading).toHaveStyle("color: var(--text-color)");
     expect(heading).toHaveStyle("font-weight: 700");
     expect(heading).toHaveStyle("font-size: 22px");
   });

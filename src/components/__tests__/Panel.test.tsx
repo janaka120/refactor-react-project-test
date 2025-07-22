@@ -20,6 +20,6 @@ describe("Panel", () => {
     const container = titleElement.closest("div")?.parentElement;
 
     expect(titleElement).toHaveStyle("fontWeight: 700");
-    expect(container).toHaveStyle("background: #232b3e");
+    expect(container).toHaveStyle("background: var(--panel-background-color)");
   });
 });
