@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./ResizableDraggablePanel.css"; // Optional styling import
+import "./ResizableDraggablePanel.css";
 
 interface Props {
   id: string;
@@ -16,7 +16,7 @@ interface Props {
   children: React.ReactNode;
   onDragStart?: () => void;
   onDragEnd?: () => void;
-  isDragging?: boolean; // External control for z-index layering
+  isDragging?: boolean;
   zIndex?: number;
 }
 
@@ -43,12 +43,17 @@ const ResizableDraggablePanel: React.FC<Props> = ({
   const [resizing, setResizing] = useState(false);
   const [start, setStart] = useState({ x: 0, y: 0 });
 
+  const fire = (name: "panel-drag-start" | "panel-drag-end") => {
+    window.dispatchEvent(new CustomEvent(name, { detail: { id } }));
+  };
+
   // Dragging
   const handleMouseDown = (e: React.MouseEvent) => {
     e.stopPropagation();
     setDragging(true);
     setStart({ x: e.clientX, y: e.clientY });
     onDragStart?.();
+    fire("panel-drag-start");
   };
 
   // Resizing
@@ -73,13 +78,15 @@ const ResizableDraggablePanel: React.FC<Props> = ({
       if (dragging) {
         setDragging(false);
         onDragEnd?.();
+        fire("panel-drag-end");
       }
-      if (resizing) setResizing(false);
+      if (resizing) {
+        setResizing(false);
+      }
     };
 
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
-
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
@@ -105,13 +112,14 @@ const ResizableDraggablePanel: React.FC<Props> = ({
         border: "1px solid var(--border-color)",
         borderRadius: 8,
         userSelect: "none",
-        zIndex: 1000,
+        zIndex: zIndex ?? 1000,
         display: "flex",
         flexDirection: "column",
       }}
     >
       <div
         className="panel-header"
+        data-panel-handle
         onMouseDown={handleMouseDown}
         style={{
           cursor: "move",

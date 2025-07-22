@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, ReactNode } from "react";
 import { GridDropOverlay } from "./GridDropOverlay";
 
 interface MainWorkspaceProps {
-  children: React.ReactNode;
+  children: ReactNode;
   onDrop: (e: React.DragEvent<HTMLDivElement>) => void;
   onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
   onGridDropInfo?: (info: {
@@ -22,14 +22,16 @@ export const MainWorkspace: React.FC<MainWorkspaceProps> = ({
   gridCols = 2,
 }) => {
   const [dragging, setDragging] = useState(false);
+  const [isPanelDragging, setIsPanelDragging] = useState(false);
   const [activeCell, setActiveCell] = useState<{
     row: number;
     col: number;
   } | null>(null);
-  const [isPanelDragging, setIsPanelDragging] = useState(false);
-  const workspaceRef = useRef<HTMLDivElement>(null);
 
-  // Update container size on mount and resize
+  const workspaceRef = useRef<HTMLDivElement>(null);
+  const dragDepth = useRef(0); // stabilize dragenter/leave
+
+  // size cache
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   useEffect(() => {
     const updateSize = () => {
@@ -45,48 +47,53 @@ export const MainWorkspace: React.FC<MainWorkspaceProps> = ({
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
-  // Only show overlay when dragging from nav (not when dragging panels inside)
+  // external nav drag
   useEffect(() => {
-    const handleDragEnter = (e: DragEvent) => {
-      // Only set dragging if dragging from outside (nav)
+    const node = workspaceRef.current;
+    if (!node) return;
+
+    const onEnter = () => {
+      dragDepth.current += 1;
       setDragging(true);
     };
-    const handleDragLeave = (e: DragEvent) => {
-      setDragging(false);
-      setActiveCell(null);
-      if (onGridDropInfo) onGridDropInfo({ cell: null, size: containerSize });
-    };
-    const node = workspaceRef.current;
-    if (node) {
-      node.addEventListener("dragenter", handleDragEnter as any);
-      node.addEventListener("dragleave", handleDragLeave as any);
-    }
-    return () => {
-      if (node) {
-        node.removeEventListener("dragenter", handleDragEnter as any);
-        node.removeEventListener("dragleave", handleDragLeave as any);
+    const onLeave = () => {
+      dragDepth.current -= 1;
+      if (dragDepth.current <= 0) {
+        dragDepth.current = 0;
+        setDragging(false);
+        setActiveCell(null);
+        onGridDropInfo?.({ cell: null, size: containerSize });
       }
     };
-    // eslint-disable-next-line
+
+    node.addEventListener("dragenter", onEnter);
+    node.addEventListener("dragleave", onLeave);
+    return () => {
+      node.removeEventListener("dragenter", onEnter);
+      node.removeEventListener("dragleave", onLeave);
+    };
   }, [containerSize, onGridDropInfo]);
-  // Listen for panel drag events (custom event)
+
+  // listen for custom events from panels
   useEffect(() => {
     const handlePanelDragStart = () => setIsPanelDragging(true);
     const handlePanelDragEnd = () => {
       setIsPanelDragging(false);
       setActiveCell(null);
     };
-    window.addEventListener("panel-drag-start", handlePanelDragStart as any);
-    window.addEventListener("panel-drag-end", handlePanelDragEnd as any);
-    // Listen for ESC key to cancel drag
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setDragging(false);
         setIsPanelDragging(false);
         setActiveCell(null);
+        dragDepth.current = 0;
       }
     };
+
+    window.addEventListener("panel-drag-start", handlePanelDragStart as any);
+    window.addEventListener("panel-drag-end", handlePanelDragEnd as any);
     window.addEventListener("keydown", handleKeyDown);
+
     return () => {
       window.removeEventListener(
         "panel-drag-start",
@@ -97,26 +104,27 @@ export const MainWorkspace: React.FC<MainWorkspaceProps> = ({
     };
   }, []);
 
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOverInternal = (e: React.DragEvent) => {
     if (!workspaceRef.current) return;
     const rect = workspaceRef.current.getBoundingClientRect();
-    console.log("workspaceRef.current.getBoundingClientRect() >>>", rect);
+
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     const cellWidth = rect.width / gridCols;
     const cellHeight = rect.height / gridRows;
+
     const col = Math.max(0, Math.min(gridCols - 1, Math.floor(x / cellWidth)));
     const row = Math.max(0, Math.min(gridRows - 1, Math.floor(y / cellHeight)));
     const cell = { row, col };
+
     setActiveCell(cell);
-    if (onGridDropInfo)
-      onGridDropInfo({
-        cell,
-        size: { width: rect.width, height: rect.height },
-      });
+    onGridDropInfo?.({
+      cell,
+      size: { width: rect.width, height: rect.height },
+    });
   };
 
-  // Expose handleDragStart for parent usage if needed
+  // expose hook for parent
   (window as any).mainWorkspaceHandleDragStart = () => setDragging(true);
 
   return (
@@ -125,25 +133,31 @@ export const MainWorkspace: React.FC<MainWorkspaceProps> = ({
       data-testid="workspace"
       style={{ position: "relative", width: "100%", height: "100%" }}
       onDrop={(e) => {
+        e.preventDefault();
         setDragging(false);
         setIsPanelDragging(false);
         setActiveCell(null);
-        if (onGridDropInfo) onGridDropInfo({ cell: null, size: containerSize });
+        dragDepth.current = 0;
+        onGridDropInfo?.({ cell: null, size: containerSize });
         onDrop(e);
       }}
       onDragOver={(e) => {
-        handleDragOver(e);
+        e.preventDefault(); // ensure drop fires
+        handleDragOverInternal(e);
         onDragOver(e);
       }}
-      // Remove onDragLeave here, handled by effect above
     >
       {children}
-      <GridDropOverlay
-        rows={gridRows}
-        cols={gridCols}
-        activeCell={activeCell}
-        visible={dragging || isPanelDragging}
-      />
+
+      {/* Make sure overlay can't swallow pointer/mouse */}
+      <div style={{ pointerEvents: "none" }}>
+        <GridDropOverlay
+          rows={gridRows}
+          cols={gridCols}
+          activeCell={activeCell}
+          visible={dragging || isPanelDragging}
+        />
+      </div>
     </div>
   );
 };
