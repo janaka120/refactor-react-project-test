@@ -2,8 +2,8 @@ import { render, screen, fireEvent, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 const { isLoggedInMock, logoutIfInactiveMock } = vi.hoisted(() => ({
-  isLoggedInMock: vi.fn<boolean, []>(() => false),
-  logoutIfInactiveMock: vi.fn<void, []>(() => {}),
+  isLoggedInMock: vi.fn(() => false),
+  logoutIfInactiveMock: vi.fn(() => {}),
 }));
 
 vi.mock("../components/LoginComponent", () => ({
