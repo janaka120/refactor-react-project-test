@@ -367,7 +367,7 @@ export const App: FC = () => {
                 background:
                   "linear-gradient(90deg, var(--gradient-start) 0%, var(--border-color) 100%)",
                 color: "#fff",
-                padding: "0.5rem 1.5rem",
+                padding: "0rem 1.5rem",
                 fontWeight: 600,
                 fontSize: 20,
                 letterSpacing: 1,

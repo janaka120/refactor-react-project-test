@@ -164,20 +164,17 @@ const ResizableDraggablePanel: React.FC<Props> = ({
       >
         {children}
       </div>
-
-      <div
-        className="resize-handle"
-        onMouseDown={handleResizeMouseDown}
-        style={{
-          position: "absolute",
-          right: 0,
-          bottom: 0,
-          width: 12,
-          height: 12,
-          cursor: "nwse-resize",
-          background: "transparent",
-        }}
-      />
+      <div className="resize-handle" onMouseDown={handleResizeMouseDown}>
+        <svg viewBox="0 0 12 12" width="12" height="12">
+          <polyline
+            points="1,11 11,11 11,1"
+            fill="none"
+            stroke="#7c5fe6"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </svg>
+      </div>
     </div>
   );
 };
