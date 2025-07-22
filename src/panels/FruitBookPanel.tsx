@@ -176,6 +176,9 @@ const FruitBook: React.FC = () => {
           >
             <AgGridReact
               ref={gridRef}
+              pagination={true}
+              paginationPageSize={50}
+              cacheBlockSize={50}
               rowData={rawFruits}
               columnDefs={columnDefs}
               defaultColDef={defaultColDef}
@@ -196,6 +199,9 @@ const FruitBook: React.FC = () => {
                     ? "var(--panel-background-color)"
                     : "var(--row-background-color-odd)",
               })}
+              animateRows={true}
+              enableCellTextSelection={true}
+              suppressRowHoverHighlight={true}
             />
           </div>
         </div>
